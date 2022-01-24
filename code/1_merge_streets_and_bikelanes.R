@@ -18,8 +18,8 @@ ptm <- proc.time()
 
 
 # panel parameters ---------------------------------------------------------------------------------
-path_lion <- "data/raw/NYC_spatial/lion_16d/lion.gdb"
-path_dot_bikelanes <- "data/raw/bikeroutes/nyc-bike-routes/nyc_bike_routes_2017.shp"
+path_lion <- "data/raw/lion/lion_16d/lion.gdb"
+path_dot_bikelanes <- "data/raw/dot/nyc-bike-routes/nyc_bike_routes_2017.shp"
 
 # potential improvement: flexible versions for input
 # maybe load all DOT versions to improve past snap shots
