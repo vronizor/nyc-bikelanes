@@ -69,6 +69,8 @@ unique(dot.dt[, ft_facilit])
 # all combinations of Class and facilities
 class_facilities = dot.dt[, .N, by = .(facilitycl, tf_facilit, ft_facilit)][order(facilitycl, -N)]
 class_facilities
+
+class_facilities_man = dot.dt[boro == 1, .N, by = .(facilitycl, tf_facilit, ft_facilit)][order(facilitycl, -N)]
 # some inconsistencies to correct or drop
 # I                 Standard              Standard   65
 # II                Greenway              Greenway    9
