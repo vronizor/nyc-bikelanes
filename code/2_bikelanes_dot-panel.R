@@ -5,17 +5,18 @@ library('geosphere')
 library('nabor')
 library('sf')
 library('sp')
+library(here)
 
 
 # datasets ---------------------------------------------------------------------------------
 
 # paths -------------
 # as of 2019
-path_dot_bikelanes <- "2_data/1_raw/bike-lane-net/nyc_bicycle-network_2020/NYC_BICYCLE_NETWORK_18D_20200214.shp"
+path_dot_bikelanes <- here("data/dot/nyc_bicycle-network_2020")
 
 # DOT bike lanes exported in 2020 (state of 2019) asks for SegmentID in LION16d
 # -> will only need this information when comparing with DCP panel
-path_lion <- "2_data/1_raw/lion/lion16/lion/lion.gdb"
+path_lion <- here("data/lion/lion16/lion/lion.gdb")
 
 # load -------------
 dot.sf = read_sf(path_dot_bikelanes)
@@ -29,7 +30,7 @@ dot.dt = dot.dt[, geometry := dot_geom.v]
 
 # cleaning and categorization of facilities ---------------------------------------------------------------------------------
 
-dot.dt[, lion16d_id := as.numeric(segmentid)]
+dot.dt[, lion16d_id := as.numeric(segment_id)]
 
 nrow(dot.dt) - nrow(unique(dot.dt))
 # 3 duplicates -> remove for now
@@ -47,6 +48,8 @@ dot.dt[, install_date := as.POSIXct(substr(instdate, 1, 19),
 dot.dt[, modif_date := as.POSIXct(substr(moddate, 1, 19), 
                                          format = "%Y-%m-%d", 
                                          tz ="America/New_York")]
+
+dot.dt[modif_date != install_date, .N, by = year(modif_date)][order(year)][, .(year, cumsum(N))]
 
 dot.dt[, `:=`(instdate = NULL, moddate=NULL)]
 
